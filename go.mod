@@ -1,9 +1,10 @@
-module cuelang.org/go
+module github.com/thatInfrastructureGuy/cue
 
 go 1.21
 
 require (
 	cuelabs.dev/go/oci/ociregistry v0.0.0-20240404174027-a39bec0462d2
+	cuelang.org/go v0.0.0-00010101000000-000000000000
 	github.com/cockroachdb/apd/v3 v3.2.1
 	github.com/emicklei/proto v1.10.0
 	github.com/go-quicktest/qt v1.101.0
@@ -33,5 +34,6 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )
+
+replace cuelang.org/go => github.com/thatInfrastructureGuy/cue v0.0.0-20240605151249-c372c04aad79
