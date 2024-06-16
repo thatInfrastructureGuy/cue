@@ -15,15 +15,35 @@
 package template
 
 import (
+	"maps"
 	"strings"
+	"sync"
 	"text/template"
 
 	"cuelang.org/go/cue"
 )
 
+type FuncMap template.FuncMap
+
+var (
+	fm   = make(template.FuncMap)
+	muFM = sync.Mutex{}
+)
+
+// AddFuncMap copies funcMap provided by the user to global map.
+// If AddFuncMap is called multiple times with a key already present in global map,
+// the value in the global map will be overwritten by the latest value associated
+func AddFuncMap(funcMap FuncMap) {
+	muFM.Lock()
+	defer muFM.Unlock()
+	maps.Copy(fm, funcMap)
+}
+
 // Execute executes a Go-style template.
 func Execute(templ string, data cue.Value) (string, error) {
-	t, err := template.New("").Parse(templ)
+	muFM.Lock()
+	t, err := template.New("").Funcs(fm).Parse(templ)
+	muFM.Unlock()
 	if err != nil {
 		return "", err
 	}
